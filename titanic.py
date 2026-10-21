@@ -60,5 +60,7 @@ new_data = {
 df = pd.DataFrame(new_data)
 #print
 print(new_data)
+
 #save to csv
 df.to_csv('predictions.csv', index=False)
+
