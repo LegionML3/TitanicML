@@ -12,12 +12,10 @@ import numpy as np
 test_data = pd.read_csv(r'datasets\titanic\test.csv')
 train_data = pd.read_csv(r'datasets\titanic\train.csv')
 
-train_x = train_data.drop(columns=['Pclass', 'Age', 'SibSp', 'Parch', 'Fare', 'Name', 'Sex', 'Ticket', 'Cabin', 'Embarked'])
-
 train_y = train_data['Survived']
-train_x = train_data.drop(columns=['Survived', 'Name', 'Ticket', 'Cabin', 'Embarked'])
+train_x = train_data.drop(columns=['Survived', 'Name', 'Ticket', 'Cabin'])
 
-test_data = test_data.drop(columns=['Name', 'Ticket', 'Cabin', 'Embarked'])
+test_data = test_data.drop(columns=['Name', 'Ticket', 'Cabin'])
 
 #ml
 preprossesor = ColumnTransformer(transformers=[
@@ -29,7 +27,7 @@ preprossesor = ColumnTransformer(transformers=[
     ('labels', Pipeline([
         ('imputer', SimpleImputer(strategy='constant', fill_value='missing')),
         ('onehot', OneHotEncoder(handle_unknown='ignore'))
-    ]), ['Sex'])
+    ]), ['Sex', 'Embarked'])
 ])
 
 pipe = Pipeline([
