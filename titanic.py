@@ -17,7 +17,7 @@ train_x = train_data.drop(columns=['Pclass', 'Age', 'SibSp', 'Parch', 'Fare', 'N
 train_y = train_data['Survived']
 train_x = train_data.drop(columns=['Survived', 'Name', 'Sex', 'Ticket', 'Cabin', 'Embarked'])
 
-test_data = test_data.dropna().drop(columns=['Name', 'Sex', 'Ticket', 'Cabin', 'Embarked'])
+test_data = test_data.drop(columns=['Name', 'Sex', 'Ticket', 'Cabin', 'Embarked'])
 
 #ml
 preprossesor = ColumnTransformer(transformers=[
@@ -59,6 +59,6 @@ new_data = {
 }
 df = pd.DataFrame(new_data)
 #print
-print(df)
+print(new_data)
 #save to csv
 df.to_csv('predictions.csv', index=False)
