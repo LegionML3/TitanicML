@@ -45,6 +45,7 @@ grid = GridSearchCV(
     n_jobs=-1,
     scoring='accuracy'
 )
+
 #fitting grid
 grid.fit(train_x, train_y)
 
@@ -52,7 +53,12 @@ grid.fit(train_x, train_y)
 model = grid.best_estimator_
 preds = model.predict(test_data)
 
-df = train_data.drop(columns=['Name', 'Sex', 'Ticket', 'Cabin', 'Embarked', 'Pclass', 'Age', 'SibSp', 'Parch', 'Fare'])
-df['Survived'] = list(preds)
+new_data = {
+    'PassengerId': test_data['PassengerId'],
+    'Survived': preds
+}
+df = pd.DataFrame(new_data)
+#print
 print(df)
-df.to_csv('my_file.csv', index=False)
+#save to csv
+df.to_csv('predictions.csv', index=False)
