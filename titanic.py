@@ -12,13 +12,13 @@ import numpy as np
 test_data = pd.read_csv(r'datasets\titanic\test.csv')
 train_data = pd.read_csv(r'datasets\titanic\train.csv')
 
-
+train_x = train_data.drop(columns=['Pclass', 'Age', 'SibSp', 'Parch', 'Fare', 'Name', 'Sex', 'Ticket', 'Cabin', 'Embarked'])
 
 train_y = train_data['Survived']
 train_x = train_data.drop(columns=['Survived', 'Name', 'Sex', 'Ticket', 'Cabin', 'Embarked'])
-test_data = test_data.drop(columns=['Name', 'Sex', 'Ticket', 'Cabin', 'Embarked'])
 
-print(train_x.columns)
+test_data = test_data.dropna().drop(columns=['Name', 'Sex', 'Ticket', 'Cabin', 'Embarked'])
+
 #ml
 preprossesor = ColumnTransformer(transformers=[
     ('num', Pipeline([
@@ -51,4 +51,8 @@ grid.fit(train_x, train_y)
 #getting best model
 model = grid.best_estimator_
 preds = model.predict(test_data)
-print(accuracy_score(test_data, preds))
+
+df = train_data.drop(columns=['Name', 'Sex', 'Ticket', 'Cabin', 'Embarked', 'Pclass', 'Age', 'SibSp', 'Parch', 'Fare'])
+df['Survived'] = list(preds)
+print(df)
+df.to_csv('my_file.csv', index=False)
